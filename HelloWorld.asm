@@ -7,6 +7,7 @@ section .data
     output_fmt db "Voce digitou: %s", 10, 0
     pause_cmd db "pause", 0
 
+
 section .bss
     buffer resb 1024
 
