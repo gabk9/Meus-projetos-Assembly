@@ -10,11 +10,12 @@ main:
 
     mov rax, 5          ; rax = 5
     mov rbx, 3          ; rbx = 3
+    mov r10, rax        ; r10 = rax
     add rax, rbx        ; rax += rbx
 
     lea rcx, [rel fmt]  ; rcx = &fmt
-    mov rdx, 5          ; rdx = 5
-    mov r8, 3           ; r8 = 3
+    mov rdx, r10        ; rdx = r10
+    mov r8, rbx         ; r8 = rbx
     mov r9, rax         ; r9 = rax
     call printf
 
