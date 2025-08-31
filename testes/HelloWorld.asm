@@ -8,6 +8,8 @@ section .text
 main:
     sub rsp, 40
     lea rcx, [rel msg]
+    xor rax, rax
     call printf
     add rsp, 40
+    xor eax, eax
     ret

@@ -10,5 +10,6 @@ main:
     mov rcx, msg
     xor rax, rax
     call printf
+    add rsp, 40
     xor eax, eax
     ret 
