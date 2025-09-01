@@ -1,15 +1,26 @@
 global main
 extern printf
+extern scanf
 
 section .data
+    prompt db "Type-in a number: ", 0
+    prompt_in db "%d", 0
+
     msg db "Number: %d", 10, "Factorial: %llu", 10, 0
     zer db "The number %d is negative, please enter positive values", 10, 0
 
 section .text
 main:
-    sub rsp, 40
+    sub rsp, 44
 
-    mov rax, 5
+    lea rcx, [rel prompt]
+    call printf
+
+    lea rcx, [rel prompt_in]
+    lea rdx, [rsp]
+    call scanf
+
+    mov rax, [rsp]
     mov r10, rax
     mov rbx, 1
 
@@ -46,6 +57,6 @@ do_factorial:
     call printf
 
 endif:
-    add rsp, 40
+    add rsp, 44
     xor eax, eax
     ret
