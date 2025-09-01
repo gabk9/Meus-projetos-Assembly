@@ -3,7 +3,6 @@ extern printf
 
 section .data
     msg db "Number: %d", 10, "Factorial: %llu", 10, 0
-    
     zer db "The number %d is negative, please enter positive values", 10, 0
 
 section .text
