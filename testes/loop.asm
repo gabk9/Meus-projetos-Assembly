@@ -8,15 +8,15 @@ section .text
 main:
     sub rsp, 40
 
-    mov rax, 10
+    mov rax, 3
     mov rbx, 1
-    mov r10, rbx
+    mov r10, 0
 
 .loop:
     add r10, rbx
     inc rbx
     cmp rbx, rax
-    jne loop
+    jle .loop
 
     lea rcx, [rel msg]
     mov rdx, rax
