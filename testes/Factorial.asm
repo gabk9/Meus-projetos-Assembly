@@ -9,17 +9,17 @@ msg db "Number: %d", 10, "Factorial: %llu", 10, 0
 zer db "The number %d is negative, please enter positive values", 10, 0
 
 section .bss
-    number resq 1        ; espaço para scanf armazenar o número
+    number resq 1
 
 section .text
 main:
-    sub rsp, 32      ; alinhamento de pilha seguro (16 bytes múltiplo)
+    sub rsp, 32
 
     lea rcx, [rel prompt]
     call printf
 
     lea rcx, [rel prompt_in]
-    lea rdx, [rel number]   ; ponteiro para variável
+    lea rdx, [rel number]
     call scanf
 
     mov rax, [rel number]
