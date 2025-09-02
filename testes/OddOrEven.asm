@@ -10,6 +10,9 @@ section .data
     evn db "%d is an even number", 10, 0
     zer db "The number is %d, which is neutral", 10, 0
 
+section .bss
+    number resq 1
+
 section .text
 main:
     sub rsp, 44
@@ -18,10 +21,10 @@ main:
     call printf
 
     lea rcx, [rel prompt_in]
-    lea rdx, [rsp + 44]
+    lea rdx, [rel number]
     call scanf
 
-    mov rax, [rsp + 44]
+    mov rax, [rel number]
     test rax, rax
     jz rax_is_zero
 

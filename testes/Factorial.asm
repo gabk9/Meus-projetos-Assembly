@@ -3,24 +3,26 @@ extern printf
 extern scanf
 
 section .data
-    prompt db "Type-in a number: ", 0
-    prompt_in db "%d", 0
+prompt db "Type-in a number: ", 0
+prompt_in db "%d", 0
+msg db "Number: %d", 10, "Factorial: %llu", 10, 0
+zer db "The number %d is negative, please enter positive values", 10, 0
 
-    msg db "Number: %d", 10, "Factorial: %llu", 10, 0
-    zer db "The number %d is negative, please enter positive values", 10, 0
+section .bss
+    number resq 1        ; espaço para scanf armazenar o número
 
 section .text
 main:
-    sub rsp, 44
+    sub rsp, 32      ; alinhamento de pilha seguro (16 bytes múltiplo)
 
     lea rcx, [rel prompt]
     call printf
 
     lea rcx, [rel prompt_in]
-    lea rdx, [rsp]
+    lea rdx, [rel number]   ; ponteiro para variável
     call scanf
 
-    mov rax, [rsp]
+    mov rax, [rel number]
     mov r10, rax
     mov rbx, 1
 
@@ -32,7 +34,6 @@ main:
 is_negative:
     lea rcx, [rel zer]
     mov rdx, r10
-    
     call printf
     jmp endif
 
@@ -40,9 +41,8 @@ is_zero:
     lea rcx, [rel msg]
     mov rdx, r10
     mov r8, rbx
-
     call printf
-    jmp endif    
+    jmp endif
 
 do_factorial:
 .loop:
@@ -53,10 +53,9 @@ do_factorial:
     lea rcx, [rel msg]
     mov rdx, r10
     mov r8, rbx
-    
     call printf
 
 endif:
-    add rsp, 44
+    add rsp, 32
     xor eax, eax
     ret
