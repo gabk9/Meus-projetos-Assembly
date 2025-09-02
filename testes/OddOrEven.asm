@@ -1,14 +1,17 @@
 global main
 extern printf
 extern scanf
+extern system
 
 section .data
-    prompt db "Type-in a number: ", 0
+    prompt db "Type-in a number, type 0 to exit: ", 0
     prompt_in db "%d", 0
-    
-    odd db "%d is an odd number", 10, 0
-    evn db "%d is an even number", 10, 0
-    zer db "The number is %d, which is neutral", 10, 0
+
+    odd db "%lld is an odd number", 10, 0
+    evn db "%lld is an even number", 10, 0
+    zer db "the number %lld is neutral, btw terminating program...", 10, 0
+
+    cmd db "pause", 0
 
 section .bss
     number resq 1
@@ -17,6 +20,7 @@ section .text
 main:
     sub rsp, 44
 
+start_loop:
     lea rcx, [rel prompt]
     call printf
 
@@ -26,7 +30,7 @@ main:
 
     mov rax, [rel number]
     test rax, rax
-    jz rax_is_zero
+    jz is_zero
 
     test rax, 1
     jnz is_odd
@@ -36,20 +40,25 @@ is_odd:
     lea rcx, [rel odd]
     mov rdx, rax
     call printf
-    jmp endif
+    jmp start_loop
 
 is_even:
     lea rcx, [rel evn]
     mov rdx, rax
     call printf
-    jmp endif
+    jmp start_loop
 
-rax_is_zero:
+is_zero:
     lea rcx, [rel zer]
     mov rdx, rax
     call printf
+    jmp endif
 
 endif:
+    lea rcx, [rel cmd]
+    xor rax, rax
+    call system
+    
     add rsp, 44
     xor eax, eax
     ret

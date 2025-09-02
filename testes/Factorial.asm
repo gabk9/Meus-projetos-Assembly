@@ -1,12 +1,16 @@
 global main
 extern printf
 extern scanf
+extern system   
 
 section .data
-prompt db "Type-in a number: ", 0
-prompt_in db "%d", 0
-msg db "Number: %d", 10, "Factorial: %llu", 10, 0
-zer db "The number %d is negative, please enter positive values", 10, 0
+    prompt db "Type-in a number, type 0 to exit: ", 0
+    prompt_in db "%d", 0
+
+    msg db "Number: %d", 10, "Factorial: %llu", 10, 0
+    zer db "The number %d is negative, please enter positive values", 10, 0
+
+    cmd db "pause", 0
 
 section .bss
     number resq 1
@@ -15,6 +19,7 @@ section .text
 main:
     sub rsp, 32
 
+start_loop:
     lea rcx, [rel prompt]
     call printf
 
@@ -35,7 +40,7 @@ is_negative:
     lea rcx, [rel zer]
     mov rdx, r10
     call printf
-    jmp endif
+    jmp start_loop
 
 is_zero:
     lea rcx, [rel msg]
@@ -54,8 +59,13 @@ do_factorial:
     mov rdx, r10
     mov r8, rbx
     call printf
+    jmp start_loop
 
 endif:
+    lea rcx, [rel cmd]
+    xor rax, rax
+    call system
+
     add rsp, 32
     xor eax, eax
     ret
