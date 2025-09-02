@@ -3,9 +3,9 @@ extern printf
 extern scanf
 
 section .data
-prompt db "Type-in a number: ", 0
-prompt_in db "%d", 0
-msg db "The biggest number between %d, %d and %d is %d", 10, 0
+    prompt db "Type-in a number: ", 0
+    prompt_in db "%d", 0
+    msg db "The biggest number between %d, %d and %d is %d", 10, 0
 
 section .bss
     numbers resd 3
