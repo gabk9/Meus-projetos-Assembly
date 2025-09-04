@@ -23,7 +23,7 @@ section .data
     multi db 10, "%d x %d = %d", 10, 0
     division db 10, "%.2f / %.2f = %.2f", 10, 0
     division2 db 10, "%d / %d = %d with remainder: %d", 10, 0
-    sum db 10, "%d + %d = %d", 10, 0
+    sum db 10, "%d + %d = %d", 10, 0 
     min db 10, "%d - %d = %d", 10, 0
 
 section .bss
