@@ -62,7 +62,6 @@ main_menu:
     jmp invalid_option
 
 questions:
-
     sub rsp, 8
     lea rcx, [rel n]
     xor rax, rax
