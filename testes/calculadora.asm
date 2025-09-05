@@ -27,7 +27,7 @@ section .data
     min db 10, "%d - %d = %d", 10, 0
 
 section .bss
-    num1 resd 1
+    num1 resd 1 
     num2 resd 1
     op resd 1
 
