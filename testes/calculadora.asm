@@ -17,8 +17,9 @@ section .data
 
     n db "Type-in a number: ", 0
     n_in db "%d", 0
+    nF_in db "%f", 0
 
-    div_or db 10, "or", 10, 0
+    div_or db "or", 10, 0
     div_err db 10, "Cant divide by 0!!", 10, 0
     
     multi db 10, "%d x %d = %d", 10, 0
@@ -64,7 +65,7 @@ main_menu:
     cmp eax, 1
     je multiplication_menu
     cmp eax, 2
-    je division_menu2
+    je division_menu        ;! DOES NOT WORK PROPERLY
     cmp eax, 3
     je addition_menu
     cmp eax, 4
@@ -73,26 +74,65 @@ main_menu:
     je endif
     jmp invalid_option
 
+division_menu:
+    call division_menu2
+    
+    call division_menu1
+    
+    jmp main_menu
+
 questions:
     sub rsp, 32
     lea rcx, [rel n]
+    xor rax, rax
     call printf
     add rsp, 32
 
     sub rsp, 32
     lea rcx, [rel n_in]
     lea rdx, [rel num1]
+    xor rax, rax
     call scanf
     add rsp, 32
 
     sub rsp, 32
     lea rcx, [rel n]
+    xor rax, rax
     call printf
     add rsp, 32
 
     sub rsp, 32
     lea rcx, [rel n_in]
     lea rdx, [rel num2]
+    xor rax, rax
+    call scanf
+    add rsp, 32
+    ret
+
+float_questions:
+    sub rsp, 32
+    lea rcx, [rel n]
+    xor rax, rax
+    call printf
+    add rsp, 32
+
+    sub rsp, 32
+    lea rcx, [rel nF_in]
+    lea rdx, [rel num1]
+    xor rax, rax
+    call scanf
+    add rsp, 32
+
+    sub rsp, 32
+    lea rcx, [rel n]
+    xor rax, rax
+    call printf
+    add rsp, 32
+
+    sub rsp, 32
+    lea rcx, [rel nF_in]
+    lea rdx, [rel num2]
+    xor rax, rax
     call scanf
     add rsp, 32
     ret
@@ -135,8 +175,31 @@ addition_menu:
     jmp main_menu
 
 division_menu1:
-    ; TODO implement float division
-    jmp main_menu
+    call float_questions
+
+    movss xmm1, [rel num2]
+    pxor xmm0, xmm0
+    comiss xmm1, xmm0
+    je is_zero
+    
+    movss xmm0, [rel num1]
+    divss xmm0, xmm1
+
+    cvtss2sd xmm0, xmm0
+    cvtss2sd xmm1, [rel num1]
+    cvtss2sd xmm2, [rel num2]
+
+    sub rsp, 32
+    lea rcx, [rel division]
+    movq rdx, xmm1
+    movq r8, xmm2
+    movq r9, xmm0
+    mov rax, 3
+    call printf
+    add rsp, 32
+
+    call newline
+    ret
 
 division_menu2:
     call questions
@@ -157,21 +220,29 @@ division_menu2:
     call printf
     add rsp, 32
 
+    sub rsp, 32
+    lea rcx, [rel div_or]
+    xor rax, rax
+    call printf
+    add rsp, 32
+
     call newline
-    jmp main_menu
+    ret
 
 is_zero:
     sub rsp, 32
     lea rcx, [rel div_err]
     call printf
+    add rsp, 32
 
+    sub rsp, 32
     lea rcx, [rel cmd]
     xor rax, rax
     call system
     add rsp, 32
 
     call newline
-    jmp main_menu
+    ret
 
 multiplication_menu:
     call questions
@@ -212,6 +283,7 @@ invalid_option:
     add rsp, 32
 
     jmp main_menu
+
 endif:
     sub rsp, 32
     lea rcx, [rel end]
