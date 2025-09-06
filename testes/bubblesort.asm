@@ -24,7 +24,6 @@ main:
     call printf
     add rsp, 32
 
-    ; scanf
     sub rsp, 32
     mov rax, rsi
     imul rax, 4
