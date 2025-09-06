@@ -38,7 +38,6 @@ main:
     cmp rsi, rbx
     jl .read_loop
 
-    ; BUBBLE SORT
     mov rcx, rbx
     dec rcx
     jz .print
@@ -51,7 +50,7 @@ main:
     lea rax, [rel numbers]
     mov edi, [rax + rsi*4]
     mov r8d, [rax + rsi*4 + 4]
-    cmp edi, r8d
+    cmp edi, r8d        ; ascending order
     jle .no_swap
     
     mov [rax + rsi*4], r8d
