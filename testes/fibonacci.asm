@@ -30,6 +30,10 @@ main:
     mov edx, [rel n]
     call printf
 
+    mov eax, [rel n]
+    dec eax
+    mov [rel n], eax
+
     mov rbx, 0
     mov rsi, 1
     xor rdi, rdi
