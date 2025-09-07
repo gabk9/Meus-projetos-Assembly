@@ -16,7 +16,6 @@ main:
     xor rsi, rsi
     
 .read_loop:
-    ; printf
     sub rsp, 32
     lea rcx, [rel prompt]
     call printf
