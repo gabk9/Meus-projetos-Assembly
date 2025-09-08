@@ -10,7 +10,7 @@ section .data
 section .bss
     numbers resd 3
 
-section .text
+section .text 
 main:
     sub rsp, 40
     xor rsi, rsi
