@@ -8,8 +8,8 @@ extern putchar
 section .data
     prompt db "Enter a string: ", 0
     echo_msg db "You entered: %s", 10, 0
-    msg db "This string has syllables", 10, 0
-    msg2 db "This string doesn't have any syllables", 10, 0
+    msg db "This string has vowels", 10, 0
+    msg2 db "This string doesn't have any vowels", 10, 0
     fmt db "%[^\n]", 0
     newline db 10, 0
     MAX_CHAR equ 256
@@ -82,9 +82,9 @@ found_vowel:
 
 check_result:
     cmp rdi, 0
-    jg has_syllables
+    jg has_vowels
     
-no_syllables:
+no_vowels:
     sub rsp, 32
     lea rcx, [rel msg2]
     xor rax, rax
@@ -92,7 +92,7 @@ no_syllables:
     add rsp, 32
     jmp end
 
-has_syllables:
+has_vowels:
     sub rsp, 32
     lea rcx, [rel msg]
     xor rax, rax
