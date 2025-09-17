@@ -8,7 +8,7 @@ extern putchar
 section .data
     prompt db "Enter a string: ", 0
     echo_msg db "You entered: %s", 10, 0
-    msg db "This string has vowels", 10, 0
+    msg db "This string has %d vowels", 10, 0
     msg2 db "This string doesn't have any vowels", 10, 0
     fmt db "%[^\n]", 0
     newline db 10, 0
@@ -95,6 +95,7 @@ no_vowels:
 has_vowels:
     sub rsp, 32
     lea rcx, [rel msg]
+    mov rdx, rdi
     xor rax, rax
     call printf
     add rsp, 32
